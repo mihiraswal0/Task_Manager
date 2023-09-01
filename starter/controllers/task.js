@@ -1,20 +1,20 @@
 const Task=require('../models/Task.js');
-const getAllTasks=async(req,res)=>{
+const getAllTasks=async(req,res,next)=>{
     try{
         const alltask= await Task.find();
         res.status(200).json({message:"succes",alltask:alltask});
     }
     catch(err){
-        res.status(500).json({message:"fail",err:err.message});
+      next(err);
     }
 }
-const getTask=async(req,res)=>{
+const getTask=async(req,res,next)=>{
   const id=req.params.id;
   try{
     const getTask=await Task.findOne({_id:id});
     if(!getTask)
     {
-      return res.status(404).json({message:"fail",err:"no task found"});
+     next(new Error('Task not found'));
     }
   return  res.status(200).json({message:"success",getTask:getTask});
   }
