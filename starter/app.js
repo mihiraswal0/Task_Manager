@@ -5,6 +5,8 @@ const bodyParser=require('body-parser');
 const port=8000;
 const tasks=require('./routes/task.js');
 require('./db/connect.js');
+app.use(express.static("./public"));
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/api/v1/tasks',tasks);
